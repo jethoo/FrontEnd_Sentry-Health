@@ -3,7 +3,6 @@ import React from 'react'
 
  //function to sort by MaxCP
  function compareCP(a,b){
-    // converting to uppercase to have case-insensitive comparison
     const cp1 = a.MaxCP;
     const cp2 = b.MaxCP;
 
