@@ -12,7 +12,7 @@ const App = () => {
     const [ secondFilter, setsecondFilter ] = useState([])
     const [ userEntered, setuserEntered ] = useState([])
     //variables
-
+    
     useEffect(() => {
         (async () => {
             //fetching the data
@@ -70,26 +70,21 @@ const App = () => {
             sortedByNameorType = filteredFour.sort(compareName) :
             sortedByNameorType = filteredFour.sort(compareTypes)
         })
-        //console.log('sortedByNameorType', sortedByNameorType)
         //set the state with four results
         setsecondFilter(sortedByNameorType);
-
     }
-        //let newfirstFilter = firstFilter.slice(0,4).sort(compareCP)
-        //setfirstFilter(firstFilter.slice(0,4).sort(compareCP))
+
     return (
-      
-    <> 
-        <label htmlFor="maxCP" className="max-cp">
-            <input type="checkbox" id="maxCP" onClick={() => setCheck(!check)} />
-            <small>
-                Maximum Combat Points
-            </small>
-        </label>
-        <input type="text" className="input" placeholder="Pokemon or type" onChange={findMatch}/>
-        <SearchView check={check} firstFiltered={firstFilter} secondFiltered={secondFilter} userInput={userEntered}/>
-        
-    </>
+        <> 
+            <label htmlFor="maxCP" className="max-cp">
+                <input type="checkbox" id="maxCP" onClick={() => setCheck(!check)} />
+                <small>
+                    Maximum Combat Points
+                </small>
+            </label>
+            <input type="text" className="input" placeholder="Pokemon or type" onChange={findMatch}/>
+            <SearchView check={check} firstFiltered={firstFilter} secondFiltered={secondFilter} userInput={userEntered}/>
+        </>
     )
 }
 export default App;

@@ -16,35 +16,35 @@ import React from 'react'
     return comparison
 }
 
-const SearchView = ({check, firstFiltered, secondFiltered, userInput}) => {
-
-    console.log('check', check)
-    console.log(' firstFiltered',  firstFiltered)
-    console.log(' secondFiltered',  secondFiltered)
-    console.log('userInput', userInput)
+const SearchView = ({ check, firstFiltered, secondFiltered, userInput }) => {
+    //variable
+    let finalFiltered
+    if(firstFiltered.length === 0 ){
+        finalFiltered = 0
+    }else if( secondFiltered === undefined){
+        finalFiltered = undefined
+    }else{
+        finalFiltered = check ? firstFiltered.slice(0,4).sort(compareCP) : secondFiltered
+    }
+    const regex = new RegExp(userInput, 'gi')
     
-    let finalFiltered = check ? firstFiltered.slice(0,4).sort(compareCP) : secondFiltered
-    console.log('finalFiltered', finalFiltered)
-    console.log('finalFiltered===undefined', finalFiltered===undefined)
-    console.log('ffinalFiltered.length > 0', finalFiltered.length > 0)
-
     return (
        <>
-        {finalFiltered.length === 0 ? <div className="loader"></div> : ''}
+        {finalFiltered === 0 ? <div className="loader"></div> : ''}
         {finalFiltered.length > 0 ? 
           <ul className="suggestions">
                 {finalFiltered.map(item => {
                 return (
                     <li key={item.Number}>
                         <img
-                            src="http://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
-                            alt="Pikachu"
+                            src={`${item.img}`}
+                            alt={`${item.Name}`}
                         />
                         <div className="info">
-                        <h1><span className="hl">{item.Name}</span></h1>
-                        <span className="type electric">{item.Types[0]}</span>
-                        <span className="type normal">{item.Types[1]}</span>
-                </div>
+                            <h1 dangerouslySetInnerHTML={{ __html: item.Name.replace(regex, `<span class="hl">${userInput}</span>`)}}></h1>
+                            <span className={`type ${item.Types[0].toLowerCase()}`} dangerouslySetInnerHTML={{ __html: item.Types[0].replace(regex, `<span class="hl">${userInput}</span>`)}}></span>
+                            {item.Types[1] === undefined ? '' : <span className={`type ${item.Types[1].toLowerCase()}`} dangerouslySetInnerHTML={{ __html: item.Types[1].replace(regex, `<span class="hl">${userInput}</span>`)}}></span>}
+                        </div>
                     </li>
                 )
             })
@@ -52,18 +52,6 @@ const SearchView = ({check, firstFiltered, secondFiltered, userInput}) => {
           </ul> 
         : 
         <ul className="suggestions">
-          <li>
-               <img
-                   src="http://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
-                   alt="Pikachu"
-               />
-               <div className="info">
-                       <h1><span className="hl">Pika</span>chu</h1>
-                       <span className="type electric">Electric</span>
-                       <span className="type normal">Normal</span>
-               </div>
-           </li>
-           {finalFiltered === false ? 
               <li>
                 <img src="https://cyndiquil721.files.wordpress.com/2014/02/missingno.png" alt="" />
                 <div className="info">
@@ -72,9 +60,6 @@ const SearchView = ({check, firstFiltered, secondFiltered, userInput}) => {
                     </h1>
                 </div>
             </li>
-            : 
-            ''
-           }
         </ul>
         }
       </>
